@@ -501,7 +501,7 @@ mod tests {
         assert_not_impl_any!(WebOffscreenCanvasWindowHandle: Send, Sync);
         assert_not_impl_any!(AndroidNdkWindowHandle: Send, Sync);
         assert_not_impl_any!(HaikuWindowHandle: Send, Sync);
-        assert_not_impl_any!(HelenOSWindowHandle: Send, Sync);
+        assert_impl_all!(HelenOSWindowHandle: Send, Sync);
     }
 
     #[allow(deprecated, unused)]

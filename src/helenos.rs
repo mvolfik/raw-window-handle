@@ -39,6 +39,9 @@ pub struct HelenOSWindowHandle {
     pub window: NonNull<c_void>,
 }
 
+unsafe impl Send for HelenOSWindowHandle {}
+unsafe impl Sync for HelenOSWindowHandle {}
+
 impl HelenOSWindowHandle {
     /// Create a new handle to a window.
     ///

@@ -37,6 +37,7 @@ mod android;
 mod appkit;
 mod borrowed;
 mod haiku;
+mod helenos;
 mod ohos;
 mod redox;
 mod uikit;
@@ -47,6 +48,7 @@ mod windows;
 pub use android::{AndroidDisplayHandle, AndroidNdkWindowHandle};
 pub use appkit::{AppKitDisplayHandle, AppKitWindowHandle};
 pub use borrowed::{DisplayHandle, HasDisplayHandle, HasWindowHandle, WindowHandle};
+pub use helenos::{HelenOSDisplayHandle, HelenOSWindowHandle};
 pub use haiku::{HaikuDisplayHandle, HaikuWindowHandle};
 pub use ohos::{OhosDisplayHandle, OhosNdkWindowHandle};
 pub use redox::{OrbitalDisplayHandle, OrbitalWindowHandle};
@@ -207,6 +209,11 @@ pub enum RawWindowHandle {
     /// ## Availability Hints
     /// This variant is used on HaikuOS.
     Haiku(HaikuWindowHandle),
+    /// A raw window handle for HelenOS.
+    ///
+    /// ## Availability Hints
+    /// This variant is used on HelenOS.
+    HelenOS(HelenOSWindowHandle),
 }
 
 /// Display that wraps around a raw display handle.
@@ -341,6 +348,11 @@ pub enum RawDisplayHandle {
     /// ## Availability Hints
     /// This variant is used on HaikuOS.
     Haiku(HaikuDisplayHandle),
+    /// A raw display handle for HelenOS.
+    ///
+    /// ## Availability Hints
+    /// This variant is used on HelenOS.
+    HelenOS(HelenOSDisplayHandle),
 }
 
 /// An error that can occur while fetching a display or window handle.
@@ -413,6 +425,7 @@ from_impl!(RawDisplayHandle, Windows, WindowsDisplayHandle);
 from_impl!(RawDisplayHandle, Web, WebDisplayHandle);
 from_impl!(RawDisplayHandle, Android, AndroidDisplayHandle);
 from_impl!(RawDisplayHandle, Haiku, HaikuDisplayHandle);
+from_impl!(RawDisplayHandle, HelenOS, HelenOSDisplayHandle);
 
 from_impl!(RawWindowHandle, UiKit, UiKitWindowHandle);
 from_impl!(RawWindowHandle, AppKit, AppKitWindowHandle);
@@ -434,6 +447,7 @@ from_impl!(
 );
 from_impl!(RawWindowHandle, AndroidNdk, AndroidNdkWindowHandle);
 from_impl!(RawWindowHandle, Haiku, HaikuWindowHandle);
+from_impl!(RawWindowHandle, HelenOS, HelenOSWindowHandle);
 
 #[cfg(test)]
 mod tests {
@@ -468,6 +482,7 @@ mod tests {
         assert_impl_all!(WebDisplayHandle: Send, Sync);
         assert_impl_all!(AndroidDisplayHandle: Send, Sync);
         assert_impl_all!(HaikuDisplayHandle: Send, Sync);
+        assert_not_impl_any!(HelenOSDisplayHandle: Send, Sync);
 
         // TODO: Unsure if some of these should not actually be Send + Sync
         assert_not_impl_any!(UiKitWindowHandle: Send, Sync);
@@ -486,6 +501,7 @@ mod tests {
         assert_not_impl_any!(WebOffscreenCanvasWindowHandle: Send, Sync);
         assert_not_impl_any!(AndroidNdkWindowHandle: Send, Sync);
         assert_not_impl_any!(HaikuWindowHandle: Send, Sync);
+        assert_not_impl_any!(HelenOSWindowHandle: Send, Sync);
     }
 
     #[allow(deprecated, unused)]
